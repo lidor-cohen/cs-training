@@ -24,4 +24,16 @@ function fibonacci_iteration(num) {
   console.log(arr);
 }
 
-fibonacci_iteration(10);
+let arr = [];
+function fibonacci_recursion(num, prev = 1, head = 0) {
+  num += 1;
+  if (head > num) {
+    return 0;
+  }
+
+  arr.push(head);
+  fibonacci_recursion(num, head, prev + head);
+}
+
+fibonacci_recursion(8);
+console.log(arr);

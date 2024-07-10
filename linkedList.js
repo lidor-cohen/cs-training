@@ -212,14 +212,4 @@ class LinkedList {
   }
 }
 
-let l = new LinkedList();
-l.append(1);
-l.append(2);
-l.append(3);
-l.append(4);
-l.append(5);
-l.append(6);
-l.append(7);
-
-l.removeAt(6);
-l.toString();
+module.exports = { LinkedList };

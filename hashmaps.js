@@ -4,7 +4,9 @@ const DEFAULT_ARRAY_SIZE = 16;
 const DEFAULT_LOAD_FACTOR = 0.75;
 
 function HashMap() {
-  this.buckets = new Array(DEFAULT_ARRAY_SIZE).fill(null);
+  this.buckets = new Array(DEFAULT_ARRAY_SIZE)
+    .fill(null)
+    .map(() => new ds.LinkedList());
   this.loadFactor = DEFAULT_ARRAY_SIZE;
 }
 
@@ -28,11 +30,11 @@ HashMap.prototype = {
     takes two arguments, the first is a key and
     the second is a value that is assigned to this
     key. If a key already exists, then the old
-    value is overwritten
+    value is prepended to the linked list
   */
   set: function (key, value) {
     key = this.hash(key);
-    this.buckets[key] = value;
+    this.buckets[key].prepend(value);
   },
 
   /*
@@ -55,7 +57,7 @@ HashMap.prototype = {
      in the hash map.
   */
   has: function (key) {
-    return this.buckets.includes(this.hash(key));
+    return this.buckets[key].isEmpty();
   },
 
   /*
@@ -71,7 +73,7 @@ HashMap.prototype = {
     key = this.hash(key);
     return this.buckets[key]
       ? (() => {
-          this.buckets[key] = null;
+          this.buckets[key] = new ds.LinkedList();
         })()
       : false;
   },
@@ -83,7 +85,9 @@ HashMap.prototype = {
     hash map.
   */
   length: function () {
-    return this.buckets.reduce((acc, item) => (item ? acc + 1 : acc), 0);
+    let counter = 0;
+    this.buckets.forEach((item) => (item ? (counter += item.size()) : counter));
+    return counter;
   },
 
   /*
@@ -93,7 +97,9 @@ HashMap.prototype = {
     sets everything to null.
   */
   clear: function () {
-    this.buckets.fill(null);
+    this.buckets = new Array(DEFAULT_ARRAY_SIZE)
+      .fill(null)
+      .map(() => new ds.LinkedList());
   },
 
   /*
@@ -102,7 +108,40 @@ HashMap.prototype = {
     returns an array containing all the keys
     inside the hash map.
   */
-  keys: function () {},
+  keys: function () {
+    let arr = [];
+
+    this.buckets.forEach((item, index) =>
+      !item.isEmpty() ? arr.push(index) : null
+    );
+
+    return arr;
+  },
+
+  /*
+    values() function
+
+    returns an array containing all values.
+  */
+  values: function () {
+    let arr = [];
+    this.buckets.forEach((item) =>
+      !item.isEmpty() ? arr.push(...item.getAllValues()) : null
+    );
+
+    return arr;
+  },
+
+  entries: function () {
+    let entriesArr = [];
+
+    this.buckets.forEach((item, index) => {
+      let entry = [index, item.getAllValues()];
+      entriesArr.push(entry);
+    });
+
+    return entriesArr;
+  },
 
   print: function () {
     this.buckets.forEach((item) => console.log(item));
@@ -123,6 +162,5 @@ test.set("jacket", "blue");
 test.set("kite", "pink");
 test.set("lion", "golden");
 
-console.log(test.length());
-
+console.log(test.entries());
 // test.print();

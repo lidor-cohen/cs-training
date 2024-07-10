@@ -158,6 +158,18 @@ class LinkedList {
     }
   }
 
+  getAllValues() {
+    let arr = [];
+    let current = this.head;
+
+    while (current) {
+      arr.push(current.data);
+      current = current.nextNode;
+    }
+
+    return arr;
+  }
+
   // Remove Node at certain index
   removeAt(index) {
     let current = this.head;
@@ -179,6 +191,10 @@ class LinkedList {
 
       current.nextNode = current.nextNode.nextNode;
     }
+  }
+
+  isEmpty() {
+    return this.head == null;
   }
 
   // Custom callback to do anything to linked list data

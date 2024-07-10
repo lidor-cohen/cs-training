@@ -106,21 +106,6 @@ class LinkedList {
         })();
   }
 
-  // Insert a new value at specific index
-  insert(element, index) {
-    let current = this.head;
-
-    for (let i = 2; i < index; i++) {
-      current = current.nextNode;
-    }
-
-    const node = new lNode(element);
-
-    const temp = current.nextNode;
-    current.nextNode = node;
-    current.nextNode.nextNode = temp;
-  }
-
   // Return boolean to wether a value is in the linked list
   contains(value) {
     return !this.head
@@ -151,6 +136,51 @@ class LinkedList {
         })();
   }
 
+  // Insert a new value at specific index
+  insertAt(value, index) {
+    let current = this.head;
+
+    if (index > this.size() || index < 0) return false;
+    else if (index === 0) {
+      this.prepend(value);
+      return true;
+    } else {
+      while (--index) {
+        console.log(`
+                  index: ${index}
+                  data: ${current.data}
+                  `);
+        current = current.nextNode;
+      }
+      const temp = current.nextNode;
+      current.nextNode = new lNode(value);
+      current.nextNode.nextNode = temp;
+    }
+  }
+
+  // Remove Node at certain index
+  removeAt(index) {
+    let current = this.head;
+
+    if (index >= this.size() || index < 0) return false;
+    else if (index === 0) {
+      this.head = this.head.nextNode;
+      return true;
+    } else {
+      while (--index) {
+        console.log(`
+                  index: ${index}
+                  data: ${current.data}
+                  `);
+        current = current.nextNode;
+      }
+
+      console.log("index: " + index);
+
+      current.nextNode = current.nextNode.nextNode;
+    }
+  }
+
   // Custom callback to do anything to linked list data
   do(callback) {
     let current = this.head;
@@ -162,7 +192,7 @@ class LinkedList {
   }
 
   // Pretty Print the linked list
-  print(reverse = false) {
+  toString(reverse = false) {
     let current = this.head;
     let arr = [];
 
@@ -191,4 +221,5 @@ l.append(5);
 l.append(6);
 l.append(7);
 
-l.print();
+l.removeAt(6);
+l.toString();

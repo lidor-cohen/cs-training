@@ -67,7 +67,33 @@ class BinaryTree {
     }
   }
 
-  delete(value) {}
+  delete(value) {
+    const helper = (root, value) => {
+      if (root === null) return root;
+
+      if (root.value > value) {
+        root.leftNode = helper(root.leftNode, value);
+      } else if (root.value < value) {
+        root.rightNode = helper(root.rightNode, value);
+      } else {
+        if (root.leftNode == null) {
+          return root.rightNode;
+        } else if (root.rightNode == null) {
+          return root.leftNode;
+        }
+
+        let current = root.rightNode;
+        while (current.left) {
+          current = current.left;
+        }
+        root.value = current.value;
+        root.rightNode = helper(root.rightNode, root.value);
+      }
+      return root;
+    };
+
+    helper(this.root, value);
+  }
 
   prettyPrint(node = this.root, prefix = "", isLeft = true) {
     if (node === null) {
@@ -92,4 +118,10 @@ class BinaryTree {
 }
 
 let l = new BinaryTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+l.insert(2);
+l.insert(6);
+
+l.delete(3);
+l.delete(4);
+
 l.prettyPrint();

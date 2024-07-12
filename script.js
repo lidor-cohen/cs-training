@@ -79,4 +79,7 @@ function merge(leftArr, rightArr) {
 }
 
 let f = merge_sort([4, 1, 2, 5]);
-console.log(f);
+
+module.exports = {
+  merge_sort,
+};

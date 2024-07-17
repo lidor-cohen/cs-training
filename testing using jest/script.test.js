@@ -94,3 +94,50 @@ describe("Caesar Cipher Tests", () => {
     expect(scripts.caesarCipher("abc", 30)).toBe("efg");
   });
 });
+
+describe("analyzeArray function", () => {
+  it("calculates average, min, max, and length correctly for positive numbers", () => {
+    const arr = [1, 2, 3, 4, 5];
+    const result = scripts.analyzeArray(arr);
+    expect(result.average).toBeCloseTo(3); // Average should be 3
+    expect(result.min).toBe(1); // Min should be 1
+    expect(result.max).toBe(5); // Max should be 5
+    expect(result.length).toBe(5); // Length should be 5
+  });
+
+  it("calculates average, min, max, and length correctly for negative numbers", () => {
+    const arr = [-5, -2, -8, -1];
+    const result = scripts.analyzeArray(arr);
+    expect(result.average).toBeCloseTo(-4); // Average should be -4
+    expect(result.min).toBe(-8); // Min should be -8
+    expect(result.max).toBe(-1); // Max should be -1
+    expect(result.length).toBe(4); // Length should be 4
+  });
+
+  it("handles arrays with one element", () => {
+    const arr = [42];
+    const result = scripts.analyzeArray(arr);
+    expect(result.average).toBe(42); // Average should be 42
+    expect(result.min).toBe(42); // Min should be 42
+    expect(result.max).toBe(42); // Max should be 42
+    expect(result.length).toBe(1); // Length should be 1
+  });
+
+  it("handles empty arrays", () => {
+    const arr = [];
+    const result = scripts.analyzeArray(arr);
+    expect(result.average).toBeNaN(); // Average of empty array is NaN
+    expect(result.min).toBeUndefined(); // Min of empty array is undefined
+    expect(result.max).toBeUndefined(); // Max of empty array is undefined
+    expect(result.length).toBe(0); // Length should be 0
+  });
+
+  it("handles arrays with mixed numbers", () => {
+    const arr = [10, -5, 20, 0, -3];
+    const result = scripts.analyzeArray(arr);
+    expect(result.average).toBeCloseTo(4.4); // Average should be approximately 4.4
+    expect(result.min).toBe(-5); // Min should be -5
+    expect(result.max).toBe(20); // Max should be 20
+    expect(result.length).toBe(5); // Length should be 5
+  });
+});
